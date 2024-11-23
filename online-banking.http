@@ -1,0 +1,54 @@
+########################################################
+########### ONLINE BANKING  API TEST ###################
+########################################################
+
+@host = localhost
+@port = 8080
+@url = http://{{host}}:{{port}}
+@token=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqYXRpbjIzQGdqLmNvbSIsImlhdCI6MTczMjI2NTI5Nn0.z0aIExksEARehCQH9bEPAbByLCzJn9o95PZn7f_aZ4c
+###
+GET {{url}}
+
+### Register new user
+POST {{url}}/auth/register
+
+{
+    "role": "USER",
+    "name": "Jatin Kumar",
+    "email": "jatin23@gj.com",
+    "password": "fejo",
+    "address": "Kanpur",
+    "phoneNumber": "343232"
+}
+
+### Register admin user
+POST {{url}}/auth/login
+
+{
+    "email": "jatin23@gj.com",
+    "password": "fejo"
+}
+
+### Login user
+POST {{url}}/login
+
+### ACCOUNT ENDPOINTS
+@url = http://{{host}}:{{port}}/api/accounts
+
+### Create an account
+POST {{url}}/create
+Authorization: Bearer {{token}}
+
+{
+    "userId": 1,
+    "accountType": "SAVINGS"
+}
+
+### GET Account details
+GET {{url}}/1
+Authorization: Bearer {{token}}
+
+### GET User account details
+GET {{url}}/user/1
+Authorization: Bearer {{token}}
+
