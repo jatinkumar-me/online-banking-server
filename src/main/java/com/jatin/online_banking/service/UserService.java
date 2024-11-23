@@ -9,10 +9,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.jatin.online_banking.dao.UserRegisterDao;
 import com.jatin.online_banking.exception.ResourceNotFoundException;
 import com.jatin.online_banking.model.AuthenticationRequest;
 import com.jatin.online_banking.model.AuthenticationResponse;
 import com.jatin.online_banking.model.User;
+import com.jatin.online_banking.model.UserRole;
 import com.jatin.online_banking.model.VerifyTokenResponse;
 import com.jatin.online_banking.repository.UserRepository;
 
@@ -34,13 +36,21 @@ public class UserService {
      * Register a new user by encoding their password and saving them in the
      * database.
      *
-     * @param user The user to register.
+     * @param userRegisterDao The user to register.
      * @return The registered user.
      */
-    public User register(User user) {
-        user.setPassword(encoder.encode(user.getPassword()));
-        userRepository.save(user);
-        return user;
+    public User register(UserRegisterDao userRegisterDao) {
+        User newUser = new User();
+        newUser.setName(userRegisterDao.getName());
+        newUser.setPassword(userRegisterDao.getPassword());
+        newUser.setRole(UserRole.USER);
+        newUser.setEmail(userRegisterDao.getEmail());
+        newUser.setAddress(userRegisterDao.getAddress());
+        newUser.setPhoneNumber(userRegisterDao.getPhoneNumber());
+
+        newUser.setPassword(encoder.encode(userRegisterDao.getPassword()));
+        userRepository.save(newUser);
+        return newUser;
     }
 
     /**

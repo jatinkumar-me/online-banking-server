@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.jatin.online_banking.dao.UserRegisterDao;
 import com.jatin.online_banking.model.AuthenticationRequest;
 import com.jatin.online_banking.model.AuthenticationResponse;
 import com.jatin.online_banking.model.User;
-import com.jatin.online_banking.model.UserRole;
 import com.jatin.online_banking.service.UserService;
 
 /**
@@ -31,9 +31,8 @@ public class UserController {
     }
 
     @PostMapping("/auth/register")
-    public ResponseEntity<User> registerUser(@RequestBody User user) {
-        User registeredUser = userService.register(user);
-        if (user.getRole().equals(UserRole.ADMIN)) {}
+    public ResponseEntity<User> registerUser(@RequestBody UserRegisterDao userRegisterDao) {
+        User registeredUser = userService.register(userRegisterDao);
         return ResponseEntity.ok(registeredUser);
     }
 
