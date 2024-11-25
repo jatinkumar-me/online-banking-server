@@ -1,12 +1,12 @@
 package com.jatin.online_banking.controller;
 
+import com.jatin.online_banking.dao.TransactionDao;
 import com.jatin.online_banking.model.Transaction;
 import com.jatin.online_banking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -17,12 +17,12 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/transfer")
-    public ResponseEntity<Transaction> performTransaction(
-            @RequestParam Long fromAccountId,
-            @RequestParam Long toAccountId,
-            @RequestParam BigDecimal amount,
-            @RequestParam(required = false) String description) {
-        Transaction transaction = transactionService.performTransaction(fromAccountId, toAccountId, amount, description);
+    public ResponseEntity<Transaction> performTransaction(@RequestBody TransactionDao transactionDao) {
+        Transaction transaction = transactionService.performTransaction(
+                transactionDao.getFromAccountId(),
+                transactionDao.getFromAccountId(),
+                transactionDao.getAmount(),
+                transactionDao.getDescription());
         return ResponseEntity.ok(transaction);
     }
 
