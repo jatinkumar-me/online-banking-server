@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.jatin.online_banking.model.UserRole;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import jakarta.annotation.PostConstruct;
@@ -32,8 +34,10 @@ public class JWTService {
         this.secretkey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA256");
     }
 
-    public String generateToken(String username) {
+    public String generateToken(String username, UserRole role) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", role.name());
+
         return Jwts.builder()
                 .claims()
                 .add(claims)

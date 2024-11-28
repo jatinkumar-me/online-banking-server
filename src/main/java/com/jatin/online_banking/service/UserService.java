@@ -73,7 +73,7 @@ public class UserService {
             throw new ResourceNotFoundException("User not found");
         }
         
-        String token = jwtService.generateToken(user.getEmail());
+        String token = jwtService.generateToken(user.getEmail(), user.getRole());
 
         AuthenticationResponse response = new AuthenticationResponse();
         response.setToken(token);
