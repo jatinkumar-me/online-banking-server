@@ -30,6 +30,11 @@ public class GlobalExceptionHandler {
 		return buildResponse(ex.getMessage(), HttpStatus.BAD_REQUEST);
 	}
 
+	@ExceptionHandler(UnauthorizedAccessException.class)
+	public ResponseEntity<Map<String, Object>> handleUnauthorizedAccessException(UnauthorizedAccessException ex) {
+		return buildResponse(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+	}
+
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<Map<String, Object>> handleGeneralException(Exception ex) {
 		return buildResponse("An unexpected error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
