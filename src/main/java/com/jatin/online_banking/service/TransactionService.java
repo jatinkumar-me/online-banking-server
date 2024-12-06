@@ -3,8 +3,10 @@ package com.jatin.online_banking.service;
 import com.jatin.online_banking.exception.InsufficientBalanceException;
 import com.jatin.online_banking.exception.InvalidTransactionException;
 import com.jatin.online_banking.exception.ResourceNotFoundException;
+import com.jatin.online_banking.exception.UnauthorizedAccessException;
 import com.jatin.online_banking.model.Account;
 import com.jatin.online_banking.model.Transaction;
+import com.jatin.online_banking.model.UserPrincipal;
 import com.jatin.online_banking.repository.AccountRepository;
 import com.jatin.online_banking.repository.TransactionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,11 @@ public class TransactionService {
     public Transaction performTransaction(Long fromAccountId, Long toAccountId, BigDecimal amount, String description) {
         Account fromAccount = accountRepository.findById(fromAccountId)
                 .orElseThrow(() -> new ResourceNotFoundException("From account not found"));
+
+        UserPrincipal currentUser = JWTService.getCurrentUserPrincipal();
+        if (!fromAccount.getUserId().equals(currentUser.getUserId())) {
+            throw new UnauthorizedAccessException("You are not authorized to perform this transaction");
+        }
 
         Account toAccount = accountRepository.findById(toAccountId)
                 .orElseThrow(() -> new ResourceNotFoundException("To account not found"));
