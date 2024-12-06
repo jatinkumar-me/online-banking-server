@@ -1,6 +1,6 @@
 package com.jatin.online_banking.controller;
 
-import com.jatin.online_banking.dao.CreateAccountDao;
+import com.jatin.online_banking.dao.CreateAccountDTO;
 import com.jatin.online_banking.model.Account;
 import com.jatin.online_banking.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/create")
-    public ResponseEntity<Account> createAccount(@RequestBody CreateAccountDao createAccountDao) {
+    public ResponseEntity<Account> createAccount(@RequestBody CreateAccountDTO createAccountDao) {
         Account newAccount = accountService.createAccount(createAccountDao.getUserId(),
                 createAccountDao.getAccountType());
         return ResponseEntity.ok(newAccount);

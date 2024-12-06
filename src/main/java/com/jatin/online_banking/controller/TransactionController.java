@@ -1,6 +1,6 @@
 package com.jatin.online_banking.controller;
 
-import com.jatin.online_banking.dao.TransactionDao;
+import com.jatin.online_banking.dao.TransactionDTO;
 import com.jatin.online_banking.model.Transaction;
 import com.jatin.online_banking.service.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class TransactionController {
     private TransactionService transactionService;
 
     @PostMapping("/transfer")
-    public ResponseEntity<Transaction> performTransaction(@RequestBody TransactionDao transactionDao) {
+    public ResponseEntity<Transaction> performTransaction(@RequestBody TransactionDTO transactionDao) {
         Transaction transaction = transactionService.performTransaction(
                 transactionDao.getFromAccountId(),
                 transactionDao.getFromAccountId(),

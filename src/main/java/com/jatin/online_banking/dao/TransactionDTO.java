@@ -8,7 +8,7 @@ import lombok.Data;
  * TransactionDao
  */
 @Data
-public class TransactionDao {
+public class TransactionDTO {
 
 	Long fromAccountId;
 	Long toAccountId;

@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.jatin.online_banking.dao.UserRegisterDao;
+import com.jatin.online_banking.dao.UserRegisterDTO;
 import com.jatin.online_banking.exception.ResourceNotFoundException;
 import com.jatin.online_banking.model.AuthenticationRequest;
 import com.jatin.online_banking.model.AuthenticationResponse;
@@ -39,7 +39,7 @@ public class UserService {
      * @param userRegisterDao The user to register.
      * @return The registered user.
      */
-    public User register(UserRegisterDao userRegisterDao) {
+    public User register(UserRegisterDTO userRegisterDao) {
         User newUser = new User();
         newUser.setName(userRegisterDao.getName());
         newUser.setPassword(userRegisterDao.getPassword());

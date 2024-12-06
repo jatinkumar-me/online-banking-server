@@ -6,7 +6,7 @@ import lombok.Data;
  * UserRegisterDao.java
  */
 @Data
-public class UserRegisterDao {
+public class UserRegisterDTO {
 
 	private String name;
 	private String email;

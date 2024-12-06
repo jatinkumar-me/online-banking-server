@@ -8,7 +8,7 @@ import lombok.Data;
  * CreateAccountDao
  */
 @Data
-public class CreateAccountDao {
+public class CreateAccountDTO {
 
 	private Long userId;
 	private AccountType accountType;
