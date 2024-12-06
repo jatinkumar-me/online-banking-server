@@ -20,7 +20,7 @@ public class TransactionController {
     public ResponseEntity<Transaction> performTransaction(@RequestBody TransactionDTO transactionDao) {
         Transaction transaction = transactionService.performTransaction(
                 transactionDao.getFromAccountId(),
-                transactionDao.getFromAccountId(),
+                transactionDao.getToAccountId(),
                 transactionDao.getAmount(),
                 transactionDao.getDescription());
         return ResponseEntity.ok(transaction);
