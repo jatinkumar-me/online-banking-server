@@ -13,21 +13,33 @@ GET {{url}}
 POST {{url}}/auth/register
 
 {
-    "role": "USER",
-    "name": "Jatin Kumar",
-    "email": "jatin23@gj.com",
+    "name": "Beghairat Insan",
+    "email": "beghairat@gj.com",
     "password": "fejo",
-    "address": "Kanpur",
-    "phoneNumber": "343232"
+    "address": "Honululu",
+    "phoneNumber": "3432323232"
 }
 
-### Register admin user
+########################################################
+########### LOGIN ENDPOINT IT WILL ASSIGN JWT ##########
+########################################################
 POST {{url}}/auth/login
 
 {
-    "email": "jatin23@gj.com",
+    "email": "beghairat@gj.com",
     "password": "fejo"
 }
+
+# @lang lua 
+> {%
+local body = vim.json.decode(response.body)
+
+client.global.set("token", body.token)
+%}
+
+
+### get all users
+GET {{url}}/users/all
 
 ### Login user
 POST {{url}}/login
@@ -40,7 +52,7 @@ POST {{url}}/create
 Authorization: Bearer {{token}}
 
 {
-    "userId": 1,
+    "userId": 3,
     "accountType": "SAVINGS"
 }
 
@@ -49,6 +61,24 @@ GET {{url}}/1
 Authorization: Bearer {{token}}
 
 ### GET User account details
-GET {{url}}/user/1
+GET {{url}}/user/3
 Authorization: Bearer {{token}}
+
+### update balance
+PUT {{url}}/2/update-balance?newBalance=21321
+Authorization: Bearer {{token}}
+
+### Transaction endpoints
+@url = http://{{host}}:{{port}}/api/transactions
+
+### Perform transactions
+POST {{url}}/transfer
+Authorization: Bearer {{token}}
+
+{
+	"fromAccountId": 2,
+	"toAccountId": 1,
+	"amount": 23,
+	"description": "Take this money! I don't need it anyway"
+}
 
