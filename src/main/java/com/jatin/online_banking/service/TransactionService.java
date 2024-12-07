@@ -6,6 +6,7 @@ import com.jatin.online_banking.exception.ResourceNotFoundException;
 import com.jatin.online_banking.exception.UnauthorizedAccessException;
 import com.jatin.online_banking.model.Account;
 import com.jatin.online_banking.model.Transaction;
+import com.jatin.online_banking.model.TransactionType;
 import com.jatin.online_banking.model.UserPrincipal;
 import com.jatin.online_banking.repository.AccountRepository;
 import com.jatin.online_banking.repository.TransactionRepository;
@@ -61,6 +62,7 @@ public class TransactionService {
         transaction.setAmount(amount);
         transaction.setTransactionDate(LocalDateTime.now());
         transaction.setDescription(description);
+        transaction.setTransactionType(TransactionType.TRANSFER);
 
         // Update balances
         fromAccount.setBalance(fromAccount.getBalance().subtract(amount));
