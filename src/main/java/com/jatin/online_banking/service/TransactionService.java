@@ -35,17 +35,12 @@ public class TransactionService {
      * @param amount
      * @param description
      */
-    public Transaction performTransaction(Long fromAccountId, Long toAccountId, BigDecimal amount, String description) {
-        Account fromAccount = accountRepository.findById(fromAccountId)
-                .orElseThrow(() -> new ResourceNotFoundException("From account not found"));
-
+    public Transaction performTransaction(Account fromAccount, Account toAccount, BigDecimal amount, String description) {
         UserPrincipal currentUser = JWTService.getCurrentUserPrincipal();
         if (!fromAccount.getUserId().equals(currentUser.getUserId())) {
             throw new UnauthorizedAccessException("You are not authorized to perform this transaction");
         }
 
-        Account toAccount = accountRepository.findById(toAccountId)
-                .orElseThrow(() -> new ResourceNotFoundException("To account not found"));
 
         if (fromAccount.getBalance().compareTo(amount) < 0) {
             throw new InsufficientBalanceException("Insufficient balance for transaction");
@@ -71,6 +66,25 @@ public class TransactionService {
         accountRepository.save(toAccount);
 
         return transactionRepository.save(transaction);
+    }
+
+    public Transaction performTransaction(Long fromAccountId, Long toAccountId, BigDecimal amount, String description) {
+        Account fromAccount = accountRepository.findById(fromAccountId)
+                .orElseThrow(() -> new ResourceNotFoundException("From account not found"));
+        Account toAccount = accountRepository.findById(toAccountId)
+                .orElseThrow(() -> new ResourceNotFoundException("To account not found"));
+
+        return performTransaction(fromAccount, toAccount, amount, description);
+
+    }
+
+    public Transaction performTransaction(Long fromAccountId, String toAccountNumber, BigDecimal amount, String description) {
+        Account fromAccount = accountRepository.findById(fromAccountId)
+                .orElseThrow(() -> new ResourceNotFoundException("From account not found"));
+        Account toAccount = accountRepository.findByAccountNumber(toAccountNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("To account not found"));
+
+        return performTransaction(fromAccount, toAccount, amount, description);
     }
 
     /**
